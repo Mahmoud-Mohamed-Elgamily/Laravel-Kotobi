@@ -40,6 +40,7 @@ class BooksController extends Controller
     public function store(Request $request)
     {   
         $book = Book::create($this->validateRequest($request));
+        $this->storeImage($book);
         return redirect('book')->with('message','a new book has been added ');
     }
 
@@ -76,6 +77,7 @@ class BooksController extends Controller
     public function update(Request $request, Book $book)
     {
         $book->update($this->validateRequest($request));
+        $this->storeImage($book);
         return redirect('book')->with('message','book has been updated successfully ^_^');
     }
 
@@ -91,6 +93,15 @@ class BooksController extends Controller
         return redirect('book')->with('deleted','book has been deleted successfully :(');
     }
 
+    private function storeImage($book)
+    {
+        if (request()->has('image')) {
+            $book->update([
+                'image' => request()->image->store('uploads', 'public'),
+            ]);
+        }
+    }
+
     private function validateRequest($request){
         return $request->validate([
             'title'=>'required|min:3|unique:books',
@@ -98,7 +109,7 @@ class BooksController extends Controller
             'author'=>'required|string',
             'copies'=>'required|integer|min:1',
             'price_per_day'=>'required|numeric|min:1',
-            'image'=>'nullable|image',
+            'image' => 'sometimes|file|image',
             'category_id'=>'required|integer'
         ]);
     }

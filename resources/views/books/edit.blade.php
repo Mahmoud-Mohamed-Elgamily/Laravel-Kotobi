@@ -13,7 +13,7 @@
     
         <div class="row">
             <div class="col-6">
-                <form action="{{ route('book.update', ['book'=> $book]) }}" id="bookForm" method="POST">
+                <form action="{{ route('book.update', ['book'=> $book]) }}" id="bookForm" enctype="multipart/form-data" method="POST">
                     @method('PATCH')
                     @include('books.form')
                     

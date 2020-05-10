@@ -26,6 +26,7 @@
           <tr>
             <th scope="col">#</th>
             <th scope="col">Title</th>
+            <th scope="col">Image</th>
             <th scope="col">Edit</th>
             <th scope="col">Delete</th>
           </tr>
@@ -38,6 +39,9 @@
                 <tr>
                 <th scope="row">{{$counter+=1}}</th>
                     <td>{{$book->title}}</td>
+                    <td>@if($book->image)
+                        <img src="{{ asset('storage/' . $book->image) }}" alt="" class="img-thumbnail" style="width: 60px; height:60px">
+                    @endif</td>
                     <td>
                         <a href="{{route('book.edit',['book'=>$book])}}" class="btn btn-warning">Edit</a>
                     </td>
