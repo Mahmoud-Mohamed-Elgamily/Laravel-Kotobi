@@ -104,11 +104,11 @@ class BooksController extends Controller
 
     private function validateRequest($request){
         return $request->validate([
-            'title'=>'required|min:3|unique:books',
+            'title'=>'required|min:3|unique:books,title,Null,id,deleted_at,NULL',
             'description'=>'required|min:10|string',
             'author'=>'required|string',
-            'copies'=>'required|integer|min:1',
-            'price_per_day'=>'required|numeric|min:1',
+            'copies'=>'required|integer|min:1|max:100',
+            'price_per_day'=>'required|numeric|min:1|max:100',
             'image' => 'sometimes|file|image',
             'category_id'=>'required|integer'
         ]);

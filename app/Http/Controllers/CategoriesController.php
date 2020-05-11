@@ -38,7 +38,7 @@ class CategoriesController extends Controller
     public function store(Request $request)
     {
         $category = Category::create($request->validate([
-            'name'=>'required|min:3|unique:categories',
+            'name'=>'required|min:3|unique:categories,name,Null,id,deleted_at,NULL',
         ]));
         return redirect('category')->with('message','a new category has been added ');
     }
