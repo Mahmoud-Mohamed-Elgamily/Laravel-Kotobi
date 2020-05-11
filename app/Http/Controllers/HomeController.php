@@ -26,8 +26,14 @@ class HomeController extends Controller
             foreach ($book->rate as $rate) {
                 $rate_sum += $rate->rating;
             }
-            $rate_sum = $rate_sum / count($book->rate);
-            $book['rating'] = $rate_sum;
+            if (count($book->rate)!= 0 ){
+                $rate_sum = $rate_sum / count($book->rate);
+                $book['rating'] = $rate_sum;
+            }
+            else {
+                $book['rating'] = 0;
+            }
+            
             $rate_sum = 0;
         }
         return $books;
