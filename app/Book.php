@@ -14,4 +14,9 @@ class Book extends Model
     {
         return $this->hasMany('App\Category');
     }
+
+    public function my_rate()
+    {
+        return $this->belongsToMany(User::class, 'rates');
+    }
 }
