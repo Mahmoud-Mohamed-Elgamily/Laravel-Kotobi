@@ -15,8 +15,8 @@ class Book extends Model
         return $this->hasMany('App\Category');
     }
 
-    public function my_rate()
+    public function rate()
     {
-        return $this->belongsToMany(User::class, 'rates');
+        return $this->hasMany('App\Rate');
     }
 }

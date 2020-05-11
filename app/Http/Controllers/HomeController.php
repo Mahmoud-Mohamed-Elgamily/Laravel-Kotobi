@@ -27,6 +27,16 @@ class HomeController extends Controller
     {
         $books = Book::paginate(6);
         if (Auth::check()) {
+            $rate_sum = 0;
+            foreach ($books as $book) {
+                foreach ($book->rate as $rate) {
+                    $rate_sum += $rate->rating;
+                }
+                $rate_sum = $rate_sum / count($book->rate);
+                $book['rating'] = $rate_sum;
+                $rate_sum = 0;
+            }
+            // dd($books);
             return view('home.home', ['books' => $books]);
         } else {
             return view('home.landing', ['books' => $books]);
