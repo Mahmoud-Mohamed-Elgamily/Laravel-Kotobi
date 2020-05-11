@@ -11,8 +11,8 @@
     </div>
     <div class="col-sm-6 text-center">
       <div class="btn-group" role="group" aria-label="Basic example">
-        <a href="/book/filter/rate" class="btn btn-light btn-outline-primary">Rate</a>
-        <a href="/book/filter/latest" class="btn btn-light btn-outline-primary">Latest</a>
+        <a href="/rating" class="btn btn-light btn-outline-primary">Rate</a>
+        <a href="/created_at" class="btn btn-light btn-outline-primary">Latest</a>
       </div>
     </div>
   </div>
