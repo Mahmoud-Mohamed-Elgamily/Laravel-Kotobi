@@ -1,0 +1,28 @@
+ul.pagination{
+  width: fit-content;
+  margin: 0 auto;
+}
+
+.card {
+  margin-bottom: 30px;
+}
+
+.page-link{
+  color: rgba(0, 0, 0, 0.3);
+}
+
+.card-footer{
+  padding: 0;
+}
+
+.card-footer a{
+  width: 100%;
+  font-size: 20px;
+  letter-spacing: 5px;
+  font-weight: bold;
+}
+
+a.lease{
+  border-top-left-radius: unset;
+  border-top-right-radius: unset;
+}
