@@ -8,6 +8,10 @@ use Illuminate\Http\Request;
 
 class BooksController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('is.admin');
+    }
     /**
      * Display a listing of the resource.
      *
