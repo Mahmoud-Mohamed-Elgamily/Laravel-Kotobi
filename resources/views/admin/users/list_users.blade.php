@@ -5,7 +5,11 @@
         <div class="row">
             @foreach ($users as $user)
             <div class="card" style="width: 18rem;">
-                <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
+                @if($user->avatar != null)
+                    <img src="{{ asset('storage/' . $user->avatar) }}" class="card-img-top" alt="...">
+                @else
+                    <img src="{{ asset('images/' . 'default.jpg') }}" class="card-img-top" alt="...">
+                @endif
                 <div class="card-body">
                     <h5 class="card-title"><p>{{ $user->name }}</p></h5>
                     <p class="card-text">{{ $user->email }}</p>
