@@ -23,10 +23,9 @@ class AdminController extends Controller
             if($user->is_admin){
                 return response()->json(['success'=>'Promoted!']);
             }
-            if(!$user->is_admin){
-                return response()->json(['success'=>'Demoted!']);
-            }
+            return response()->json(['success'=>'Demoted!']);
         }
+        return response()->json(['failed'=>'Process failed successfully :) !']);
     }
 
     public function activation(Request $request)
@@ -37,9 +36,7 @@ class AdminController extends Controller
             if($user->is_active){
                 return response()->json(['success'=>'Activated!']);
             }
-            if(!$user->is_active){
-                return response()->json(['success'=>'Deactivated!']);
-            }
+            return response()->json(['success'=>'Deactivated!']);
         }
     }
 }

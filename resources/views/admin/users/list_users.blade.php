@@ -49,6 +49,10 @@
             $('.modal').modal('show')
             $('.modal-body').text(response.success)
           },
+          error:function(x,e) {
+            $('.modal').modal('show')
+            $('.modal-body').text('Operation failed successfully :) !')
+          }
          });
     }
 
@@ -70,6 +74,10 @@
             $('.modal').modal('show')
             $('.modal-body').text(response.success)
           },
+          error:function(x,e) {
+            $('.modal').modal('show')
+            $('.modal-body').text('Operation failed successfully :) !')
+          }
          });
     }
 </script>
