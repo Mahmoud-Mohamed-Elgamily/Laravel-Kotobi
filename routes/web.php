@@ -16,6 +16,6 @@ use Illuminate\Support\Facades\Route;
 Auth::routes();
 
 Route::get('/', 'HomeController@index')->name('home');
-Route::get('/{sort_value}', 'HomeController@sort')->name('rate');
+Route::get('/sort/{sort_value}', 'HomeController@sort')->name('rate');
 Route::resource('book', 'BooksController');
 Route::resource('category', 'CategoriesController');
