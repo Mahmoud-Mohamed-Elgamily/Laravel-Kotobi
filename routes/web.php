@@ -20,6 +20,7 @@ Route::get('/403', function () {
     return view('auth.403');
 });
 Route::get('/sort/{sort_value}', 'HomeController@sort')->name('rate');
+Route::get('book/chart', 'BooksController@chart');
 Route::resource('book', 'BooksController');
 Route::resource('category', 'CategoriesController');
 Route::post('addfavorite', 'FavouriteController@addfavorite');

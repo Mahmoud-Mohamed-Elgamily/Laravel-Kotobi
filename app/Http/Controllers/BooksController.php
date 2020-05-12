@@ -7,6 +7,9 @@ use App\Category;
 use App\Favourite;
 use Illuminate\Http\Request;
 use Auth;
+use App\Charts\BooksProfit;
+use App\LeaseDetail;
+use Carbon\Carbon;
 
 class BooksController extends Controller
 {
@@ -24,6 +27,63 @@ class BooksController extends Controller
         $books = Book::all();
         return view('books.index',compact('books'));
     }
+
+
+    
+    /**
+     * Display books chart
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function chart()
+    {
+        $data = collect([]);
+        $labels = collect([]);
+        $chart = new BooksProfit;
+        Carbon::setWeekStartsAt(Carbon::SATURDAY);
+        Carbon::setWeekEndsAt(Carbon::FRIDAY);
+        $year=Carbon::now()->year;
+        $month=Carbon::now()->month;
+        //SOL ONE
+        // $result= LeaseDetail::select('created_at','price')->whereYear('created_at', Carbon::today()->year)->whereMonth('created_at' , Carbon::today()->month)->get()
+        // ->groupBy( function($date){ return Carbon::parse($date->created_at)->weekOfMonth; })->map(function ($row){ return $row->sum('price');});
+        
+        // $chart->labels([Carbon::createFromDate($year, $month, 1)->format('M d Y'),
+        //     Carbon::createFromDate($year, $month, 7),
+        //     Carbon::createFromDate($year, $month, 14)->format('M d Y'),
+        //     Carbon::createFromDate($year, $month, 21),
+        //     Carbon::createFromDate($year, $month+1, 1)->format('M d Y')
+        //     ]);
+        // foreach($result as $item){
+        //     $data->push($item);
+        // }
+
+        //SOL TWO
+        $result= LeaseDetail::select('created_at','price')->whereBetween('created_at', [Carbon::now()->startOfWeek(),Carbon::now()->endOfWeek()])
+        ->get()->groupBy( function($date){  return Carbon::parse($date->created_at)->format('M d Y'); })->map(function ($row){ return $row->sum('price');})->toArray();   
+        $weekStart=Carbon::now()->startOfWeek();
+        $weekEnd=Carbon::now()->endOfWeek();
+        $dateInterval = \DateInterval::createFromDateString('1 day');
+        $days = new \DatePeriod($weekStart, $dateInterval, $weekEnd->modify('+1 day'));
+        foreach($days as $label)
+        {
+            $date=$label->format('M d Y');
+            $labels->push($date);
+            if( array_key_exists($date, $result)  )
+            {
+                $data->push($result[$date]);
+            }
+            else
+            {
+                $data->push(0);
+            }
+        }      
+        $chart->labels($labels);
+        $chart->dataset('Books Profit per week', 'line', $data);  
+        return view('books.chart',compact('chart'));
+    }
+
+
 
     /**
      * Show the form for creating a new resource.
