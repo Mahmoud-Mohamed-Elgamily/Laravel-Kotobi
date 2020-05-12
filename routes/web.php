@@ -22,4 +22,6 @@ Route::resource('category', 'CategoriesController');
 
 
 Route::get('/admin/users', 'AdminController@list_users')->name('list_useres');
+Route::post('/admin/user/promotion', 'AdminController@promotion')->name('promotion');
+Route::post('/admin/user/activation', 'AdminController@activation')->name('activation');
 

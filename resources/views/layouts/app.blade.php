@@ -11,7 +11,7 @@
     <title>{{ config('app.name', 'Kotobi') }}</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="{{ asset('js/app.js') }}"></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -32,6 +32,13 @@
 
                 @if(Auth::check())
                 <ul class="navbar-nav mr-auto">
+                    @if(Auth::user()->is_admin)
+                        <li class="nav-item active">
+                            <a class="nav-link" href="{{ url('/admin/users') }}">
+                                Users
+                            </a>
+                        </li>
+                    @endif
                     <li class="nav-item active">
                         <a class="nav-link" href="{{ url('/') }}">
                             My Books

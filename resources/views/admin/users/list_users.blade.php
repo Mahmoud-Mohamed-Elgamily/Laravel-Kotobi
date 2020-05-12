@@ -1,4 +1,66 @@
-@foreach ($users as $user)
-    <p>This is user {{ $user->name }}</p>
-@endforeach
-{{ $users->links() }}
+@extends('layouts.app')
+@section('content')
+    <div class="container">
+        <div class="row">
+            @foreach ($users as $user)
+            <div class="card" style="width: 18rem;">
+                <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title"><p>{{ $user->name }}</p></h5>
+                    <p class="card-text">{{ $user->email }}</p>
+                    @if( $user->is_admin  == 0)
+                        <button type="submit" onClick="promoteAdmin(this,'{{$user->id}}')" class="btn btn-warning">Promote</button>
+                    @else
+                        <button type="submit" onClick="promoteAdmin(this,'{{$user->id}}')" class="btn btn-danger">Demote</button>
+                    @endif
+                    @if( $user->is_active == 0)
+                        <button type="submit" onClick="activation(this,'{{$user->id}}')" class="btn btn-success">Activate</button>
+                    @else
+                        <button type="submit" onClick="activation(this,'{{$user->id}}')" class="btn btn-danger">Deactivate</button>
+                    @endif
+                </div>
+            </div>
+            @endforeach
+        </div>
+    </div>
+    {{ $users->links() }}
+<script>
+    function promoteAdmin(btn,user_id) {
+        $.ajax({
+          url: "/admin/user/promotion",
+          type:"POST",
+          data:{
+            "_token": "{{ csrf_token() }}",
+            user_id:user_id
+          },
+          success:function(response){
+            $(btn).toggleClass(['btn-warning','btn-danger'])
+            if(response.success == 'Demoted!'){
+                $(btn).text("Promote")
+            }else{
+                $(btn).text("Demote")
+            }
+          },
+         });
+    }
+
+    function activation(btn,user_id) {
+        $.ajax({
+          url: "/admin/user/activation",
+          type:"POST",
+          data:{
+            "_token": "{{ csrf_token() }}",
+            user_id:user_id
+          },
+          success:function(response){
+            $(btn).toggleClass(['btn-success','btn-danger'])
+            if(response.success == 'Activated!'){
+                $(btn).text("Deactivate")
+            }else{
+                $(btn).text("Activate")
+            }
+          },
+         });
+    }
+</script>
+@endsection

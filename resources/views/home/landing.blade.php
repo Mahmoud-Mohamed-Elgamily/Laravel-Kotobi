@@ -10,7 +10,7 @@
         <div class="card-body">
           <h5 class="card-title"> {{$book->title}} <strong>By </strong> {{$book->author}}</h5>
           <p class="card-text">
-            {{$book->description | substr:0,100 }}
+            {{$book->description}}
             <a href="{{ route('login') }}"> ...Login </a>
           </p>
         </div>

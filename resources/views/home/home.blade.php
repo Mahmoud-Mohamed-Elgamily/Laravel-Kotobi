@@ -45,7 +45,7 @@
           @endforeach
 
           <p class="card-text">
-            {{$book->description | substr:0,100 }}
+            {{$book->description}}
             <a href="/book/{{$book->id}}"> ...Read More </a>
           </p>
           <small class="mr-auto">
