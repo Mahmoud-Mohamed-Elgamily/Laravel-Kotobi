@@ -9,6 +9,11 @@ use App\User;
 class AdminController extends Controller
 {
     //
+    // public function __construct()
+    // {
+    //     $this->middleware('is.admin');
+    // }
+
     public function list_users()
     {
         $users = User::paginate(5);
