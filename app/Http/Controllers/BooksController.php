@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Book;
 use App\Category;
 use Illuminate\Http\Request;
-use Khill\Lavacharts\Lavacharts;
 use App\Charts\BooksProfit;
 use App\LeaseDetail;
 use Carbon\Carbon;
