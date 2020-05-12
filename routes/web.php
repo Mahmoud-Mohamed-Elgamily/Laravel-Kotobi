@@ -13,12 +13,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/', 'HomeController@index')->name('home');
+Route::get('/sort/{sort_value}', 'HomeController@sort')->name('rate');
+Route::resource('book', 'BooksController');
+Route::resource('category', 'CategoriesController');
+
 
 Route::get('/admin/users', 'AdminController@list_users')->name('list_useres');
+
