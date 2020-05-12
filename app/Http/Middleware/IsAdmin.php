@@ -19,6 +19,6 @@ class IsAdmin
         if(Auth::user()->is_admin){
             return $next($request);
         }  
-        return redirect('/')->with('error','You are not authorised to access admin pages.');
+        return redirect('/403')->with('error','You are not authorised to access admin pages.');
     }
 }
