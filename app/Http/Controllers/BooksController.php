@@ -37,23 +37,48 @@ class BooksController extends Controller
     public function chart()
     {
         $data = collect([]);
-        $result= LeaseDetail::select('created_at','price')->whereYear('created_at', Carbon::today()->year)->whereMonth('created_at' , Carbon::today()->month)->get()
-        ->groupBy( function($date){ return Carbon::parse($date->created_at)->weekOfMonth; })->map(function ($row){ return $row->sum('price');});
+        $labels = collect([]);
         $chart = new BooksProfit;
-        foreach($result as $item){
-            $data->push($item);
-        }
+        Carbon::setWeekStartsAt(Carbon::SATURDAY);
+        Carbon::setWeekEndsAt(Carbon::FRIDAY);
         $year=Carbon::now()->year;
         $month=Carbon::now()->month;
+        //SOL ONE
+        // $result= LeaseDetail::select('created_at','price')->whereYear('created_at', Carbon::today()->year)->whereMonth('created_at' , Carbon::today()->month)->get()
+        // ->groupBy( function($date){ return Carbon::parse($date->created_at)->weekOfMonth; })->map(function ($row){ return $row->sum('price');});
+        
+        // $chart->labels([Carbon::createFromDate($year, $month, 1)->format('M d Y'),
+        //     Carbon::createFromDate($year, $month, 7),
+        //     Carbon::createFromDate($year, $month, 14)->format('M d Y'),
+        //     Carbon::createFromDate($year, $month, 21),
+        //     Carbon::createFromDate($year, $month+1, 1)->format('M d Y')
+        //     ]);
+        // foreach($result as $item){
+        //     $data->push($item);
+        // }
 
-        $chart->labels([Carbon::createFromDate($year, $month, 1)->format('M d Y'),
-            Carbon::createFromDate($year, $month, 8),
-            Carbon::createFromDate($year, $month, 15)->format('M d Y'),
-            Carbon::createFromDate($year, $month, 22),
-            Carbon::createFromDate($year, $month+1, 1)->format('M d Y')
-            ]);
-        $chart->dataset('Books Profit per week', 'line', $data);
-            
+        //SOL TWO
+        $result= LeaseDetail::select('created_at','price')->whereBetween('created_at', [Carbon::now()->startOfWeek(),Carbon::now()->endOfWeek()])
+        ->get()->groupBy( function($date){  return Carbon::parse($date->created_at)->format('M d Y'); })->map(function ($row){ return $row->sum('price');})->toArray();   
+        $weekStart=Carbon::now()->startOfWeek();
+        $weekEnd=Carbon::now()->endOfWeek();
+        $dateInterval = \DateInterval::createFromDateString('1 day');
+        $days = new \DatePeriod($weekStart, $dateInterval, $weekEnd->modify('+1 day'));
+        foreach($days as $label)
+        {
+            $date=$label->format('M d Y');
+            $labels->push($date);
+            if( array_key_exists($date, $result)  )
+            {
+                $data->push($result[$date]);
+            }
+            else
+            {
+                $data->push(0);
+            }
+        }      
+        $chart->labels($labels);
+        $chart->dataset('Books Profit per week', 'line', $data);  
         return view('books.chart',compact('chart'));
     }
 
