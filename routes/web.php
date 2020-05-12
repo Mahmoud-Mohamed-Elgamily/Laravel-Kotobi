@@ -17,5 +17,6 @@ Auth::routes();
 
 Route::get('/', 'HomeController@index')->name('home');
 Route::get('/sort/{sort_value}', 'HomeController@sort')->name('rate');
+Route::get('book/chart', 'BooksController@chart');
 Route::resource('book', 'BooksController');
 Route::resource('category', 'CategoriesController');

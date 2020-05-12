@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use App\Book;
 use App\Category;
 use Illuminate\Http\Request;
+use Khill\Lavacharts\Lavacharts;
+use App\Charts\BooksProfit;
+use App\LeaseDetail;
+use Carbon\Carbon;
 
 class BooksController extends Controller
 {
@@ -18,6 +22,38 @@ class BooksController extends Controller
         $books = Book::all();
         return view('books.index',compact('books'));
     }
+
+
+    
+    /**
+     * Display books chart
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function chart()
+    {
+        $data = collect([]);
+        $result= LeaseDetail::select('created_at','price')->whereYear('created_at', Carbon::today()->year)->whereMonth('created_at' , Carbon::today()->month)->get()
+        ->groupBy( function($date){ return Carbon::parse($date->created_at)->weekOfMonth; })->map(function ($row){ return $row->sum('price');});
+        $chart = new BooksProfit;
+        foreach($result as $item){
+            $data->push($item);
+        }
+        $year=Carbon::now()->year;
+        $month=Carbon::now()->month;
+
+        $chart->labels([Carbon::createFromDate($year, $month, 1)->format('M d Y'),
+            Carbon::createFromDate($year, $month, 8),
+            Carbon::createFromDate($year, $month, 15)->format('M d Y'),
+            Carbon::createFromDate($year, $month, 22),
+            Carbon::createFromDate($year, $month+1, 1)->format('M d Y')
+            ]);
+        $chart->dataset('Books Profit per week', 'line', $data);
+            
+        return view('books.chart',compact('chart'));
+    }
+
+
 
     /**
      * Show the form for creating a new resource.
