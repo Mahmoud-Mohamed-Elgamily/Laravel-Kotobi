@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Favourite extends Model
 {
-    use SoftDeletes;
+    protected $guarded = [];
 
-    //
 }

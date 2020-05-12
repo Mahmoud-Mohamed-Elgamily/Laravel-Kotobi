@@ -22,3 +22,6 @@ Route::get('/403', function () {
 Route::get('/sort/{sort_value}', 'HomeController@sort')->name('rate');
 Route::resource('book', 'BooksController');
 Route::resource('category', 'CategoriesController');
+Route::post('addfavorite', 'FavouriteController@addfavorite');
+Route::post('removefavorite', 'FavouriteController@removefavorite');
+
