@@ -1,6 +1,7 @@
 @extends('layouts.app')
 @section('content')
     <div class="container">
+    @include('admin.users._modal')
         <div class="row">
             @foreach ($users as $user)
             <div class="card" style="width: 18rem;">
@@ -25,6 +26,11 @@
     </div>
     {{ $users->links() }}
 <script>
+
+    $(()=>{
+        
+    })
+
     function promoteAdmin(btn,user_id) {
         $.ajax({
           url: "/admin/user/promotion",
@@ -40,6 +46,8 @@
             }else{
                 $(btn).text("Demote")
             }
+            $('.modal').modal('show')
+            $('.modal-body').text(response.success)
           },
          });
     }
@@ -59,6 +67,8 @@
             }else{
                 $(btn).text("Activate")
             }
+            $('.modal').modal('show')
+            $('.modal-body').text(response.success)
           },
          });
     }
