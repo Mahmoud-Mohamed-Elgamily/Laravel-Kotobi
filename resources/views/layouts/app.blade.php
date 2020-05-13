@@ -38,6 +38,11 @@
                                 Users
                             </a>
                         </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" href="{{ url('/book') }}">
+                                Books
+                            </a>
+                        </li>
                     @endif
                     <li class="nav-item active">
                         <a class="nav-link" href="{{ url('/') }}">
