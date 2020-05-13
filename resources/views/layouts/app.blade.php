@@ -83,9 +83,9 @@
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                 {{ Auth::user()->name }} <span class="caret"></span>
                                 @if(Auth::user()->avatar  != null)
-                                    <img src="{{ asset('storage/' . Auth::user()->avatar) }}" class="border border-danger rounded-circle" width="45px" height="45px" alt="...">
+                                    <img src="{{ asset('storage/' . Auth::user()->avatar) }}" class="border border-success rounded-circle" width="45px" height="45px" alt="...">
                                 @else
-                                    <img src="{{ asset('images/' . 'default.jpg') }}" class="border border-danger rounded-circle" width="45px" height="45px" alt="...">
+                                    <img src="{{ asset('images/' . 'default.jpg') }}" class="border border-success rounded-circle" width="45px" height="45px" alt="...">
                                 @endif
                             </a>
 
