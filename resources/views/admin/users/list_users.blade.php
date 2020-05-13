@@ -1,9 +1,9 @@
 @extends('layouts.app')
 @section('content')
     <div class="container">
-    @if (session('success'))
-        <div class="alert alert-success" role="alert">
-            {{ session('success') }}
+    @if (session('status'))
+        <div class="alert alert-{{session('class')}}" role="alert">
+            {{ session('status') }}
         </div>
     @endif
     @include('admin.users._modal')
@@ -61,11 +61,6 @@
 
 
 <script>
-
-    $(()=>{
-        
-    })
-
     function promoteAdmin(btn,user_id) {
         $.ajax({
           url: "/admin/user/promotion",
@@ -86,10 +81,11 @@
           },
           error:function(x,e) {
             $('.modal').modal('show')
-            $('.modal-body').text('Operation failed successfully :) !')
+            $('.modal-body').text('Operation failed :) !')
           }
          });
     }
+
 
     function activation(btn,user_id) {
         $.ajax({
@@ -111,7 +107,7 @@
           },
           error:function(x,e) {
             $('.modal').modal('show')
-            $('.modal-body').text('Operation failed successfully :) !')
+            $('.modal-body').text('Operation failed :) !')
           }
          });
     }
