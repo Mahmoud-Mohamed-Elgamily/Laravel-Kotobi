@@ -29,9 +29,9 @@
       <td>{{ $user->username }}</td>
       <td>
         @if($user->avatar != null)
-            <img src="{{ asset('storage/' . $user->avatar) }}" class="img-thumbnail" alt="...">
+            <img src="{{ asset('storage/' . $user->avatar) }}" class="img-thumbnail" width="221px" height="132px" alt="...">
         @else
-            <img src="{{ asset('images/' . 'default.jpg') }}" class="img-thumbnail" alt="...">
+            <img src="{{ asset('images/' . 'default.jpg') }}" class="img-thumbnail" width="221px" height="132px" alt="...">
         @endif
     </td>
     <td>{{ $user->email }}</td>
