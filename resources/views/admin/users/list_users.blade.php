@@ -7,34 +7,59 @@
         </div>
     @endif
     @include('admin.users._modal')
-        <div class="row">
-            @foreach ($users as $user)
-            <div class="card" style="width: 18rem;">
-                @if($user->avatar != null)
-                    <img src="{{ asset('storage/' . $user->avatar) }}" class="card-img-top" alt="...">
-                @else
-                    <img src="{{ asset('images/' . 'default.jpg') }}" class="card-img-top" alt="...">
-                @endif
-                <div class="card-body">
-                    <h5 class="card-title"><p>{{ $user->name }}</p></h5>
-                    <p class="card-text">{{ $user->email }}</p>
-                    @if( $user->is_admin  == 0)
-                        <button type="submit" onClick="promoteAdmin(this,'{{$user->id}}')" class="btn btn-warning">Promote</button>
-                    @else
-                        <button type="submit" onClick="promoteAdmin(this,'{{$user->id}}')" class="btn btn-danger">Demote</button>
-                    @endif
-                    @if( $user->is_active == 0)
-                        <button type="submit" onClick="activation(this,'{{$user->id}}')" class="btn btn-success">Activate</button>
-                    @else
-                        <button type="submit" onClick="activation(this,'{{$user->id}}')" class="btn btn-danger">Deactivate</button>
-                    @endif
-                    <a class="btn btn-primary" href="user/{{$user->id}}/edit">Edit</a>
-                </div>
-            </div>
-            @endforeach
-        </div>
-    </div>
-    {{ $users->links() }}
+    <table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Name</th>
+      <th scope="col">Username</th>
+      <th scope="col">Avatar</th>
+      <th scope="col">Email</th>
+      <th scope="col">Edit</th>
+      <th scope="col">Promotion</th>
+      <th scope="col">Activation</th>
+    </tr>
+  </thead>
+  <tbody>
+    @foreach ($users as $user)
+
+    <tr>
+      <th scope="row">{{ $user->id }}</th>
+      <td>{{ $user->name }}</td>
+      <td>{{ $user->username }}</td>
+      <td>
+        @if($user->avatar != null)
+            <img src="{{ asset('storage/' . $user->avatar) }}" class="img-thumbnail" alt="...">
+        @else
+            <img src="{{ asset('images/' . 'default.jpg') }}" class="img-thumbnail" alt="...">
+        @endif
+    </td>
+    <td>{{ $user->email }}</td>
+    <td>
+        <a class="btn btn-primary" href="user/{{$user->id}}/edit">Edit</a>
+    </td>
+    <td>
+        @if( $user->is_admin  == 0)
+            <button type="submit" onClick="promoteAdmin(this,'{{$user->id}}')" class="btn btn-warning">Promote</button>
+        @else
+            <button type="submit" onClick="promoteAdmin(this,'{{$user->id}}')" class="btn btn-danger">Demote</button>
+        @endif
+    </td>
+    <td>
+        @if( $user->is_active == 0)
+            <button type="submit" onClick="activation(this,'{{$user->id}}')" class="btn btn-success">Activate</button>
+        @else
+            <button type="submit" onClick="activation(this,'{{$user->id}}')" class="btn btn-danger">Deactivate</button>
+        @endif
+    </td>
+    </tr>
+    @endforeach
+  </tbody>
+</table>
+{{ $users->links() }}
+
+
+
 <script>
 
     $(()=>{

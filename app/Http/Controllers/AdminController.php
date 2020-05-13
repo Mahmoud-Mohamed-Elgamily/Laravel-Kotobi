@@ -9,10 +9,10 @@ use App\Http\Requests\UserRequest;
 class AdminController extends Controller
 {
     //
-    // public function __construct()
-    // {
-    //     $this->middleware('is.admin');
-    // }
+    public function __construct()
+    {
+        $this->middleware('is.admin');
+    }
 
     public function list_users()
     {
