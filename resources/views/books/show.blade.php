@@ -7,8 +7,8 @@
 <main>
     <div class="container dark-grey-text mt-5">
         <div class="row">
-            <div class="col-md-6 mb-4">
-                <img src="{{ asset('storage/' . $book->image) }}" class="img-fluid" alt="">
+            <div class="col-md-6 mb-4" >
+                <img src="{{ asset('storage/' . $book->image) }}" class="img-fluid" style="width:500px;height:260px;object-fit: cover;">
             </div>
             <div class="col-md-6 mb-4">
                 <div class="p-4">
