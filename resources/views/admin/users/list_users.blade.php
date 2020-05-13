@@ -28,7 +28,7 @@
                     @else
                         <button type="submit" onClick="activation(this,'{{$user->id}}')" class="btn btn-danger">Deactivate</button>
                     @endif
-                    <a class="btn btn-primary" href="/user/{{$user->id}}/edit">Edit</a>
+                    <a class="btn btn-primary" href="user/{{$user->id}}/edit">Edit</a>
                 </div>
             </div>
             @endforeach

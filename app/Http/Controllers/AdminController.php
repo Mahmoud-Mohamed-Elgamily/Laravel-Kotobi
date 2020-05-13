@@ -49,7 +49,7 @@ class AdminController extends Controller
     public function edit_user(Request $request, User $user)
     {
         // echo($user);
-        return view('user.edit',['user' => $user]);
+        return view('admin.users.edit',['user' => $user]);
     }
 
     public function update_user(UserRequest $request, User $user)
