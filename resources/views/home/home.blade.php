@@ -22,7 +22,7 @@
     @foreach($books as $book)
     <div class="col-md-4">
       <div class="card">
-        <img src="storage/images/{{$book->image}}" class="card-img-top" alt="{{$book->title}}">
+        <img src="{{ asset('storage/' . $book->image) }}" class="card-img-top" alt="{{$book->title}}">
         <div class="card-body">
           <h5 class="card-title">
             {{$book->title}} <strong>By </strong> {{$book->author}}

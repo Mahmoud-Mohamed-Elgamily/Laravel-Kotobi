@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Book;
 use App\Category;
+use App\Favourite;
 use Illuminate\Http\Request;
+use Auth;
 use App\Charts\BooksProfit;
 use App\LeaseDetail;
 use Carbon\Carbon;
@@ -114,9 +116,11 @@ class BooksController extends Controller
      * @param  \App\Book  $book
      * @return \Illuminate\Http\Response
      */
-    public function show(Book $book)
+    public function show($id)
     {
-        //
+        
+        $is_favourite = Favourite::where(['user_id'=>Auth::id(),'book_id'=>$id])->get()->count();
+        return view('books.show', ['book' => Book::findOrFail($id),'is_favourite'=>$is_favourite]);
     }
 
     /**
