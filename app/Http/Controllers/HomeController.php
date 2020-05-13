@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Book;
+use App\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Collection;
@@ -41,7 +42,7 @@ class HomeController extends Controller
 
     public function sort($sort_value)
     {
-        $books = Book::paginate(6);
+        $books = Book::paginate(8);
         $books = $this->addrate($books);
         $books->setCollection(
             $books->sortByDesc($sort_value)
@@ -51,12 +52,32 @@ class HomeController extends Controller
 
     public function index()
     {
-        $books = Book::paginate(6);
+        $categories = Category::all();
+        $books = Book::paginate(8);
         if (Auth::check()) {
             $books = $this->addrate($books);
-            return view('home.home', ['books' => $books]);
+            return view('home.home', [
+                'books' => $books,
+                'categories' => $categories
+            ]);
         } else {
-            return view('home.landing', ['books' => $books]);
+            return view('home.landing', [
+                'books' => $books,
+                'categories' => $categories
+            ]);
+        }
+    }
+    
+    public function category($category){
+        $categories = Category::all();
+        $current_category = Category::find($category);
+        $books = Category::find($category)->books()->paginate(8);
+        // dd(count($books));
+        if (Auth::check()) {
+            $books = $this->addrate($books);
+            return view('home.home', compact('books','categories', 'current_category'));
+        } else {
+            return view('home.landing', compact('books','categories', 'current_category'));
         }
     }
 }

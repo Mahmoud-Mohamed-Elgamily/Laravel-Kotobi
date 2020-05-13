@@ -10,9 +10,9 @@ class Book extends Model
     use SoftDeletes;
     protected $guarded = [];
 
-    public function categories()
+    public function category()
     {
-        return $this->hasMany('App\Category');
+        return $this->belongsTo('App\Category');
     }
 
     public function rate()

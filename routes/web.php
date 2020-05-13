@@ -33,3 +33,4 @@ Route::post('/admin/user/{user}/edit', 'AdminController@update_user')->name('upd
 Route::post('addfavorite', 'FavouriteController@addfavorite');
 Route::post('removefavorite', 'FavouriteController@removefavorite');
 
+Route::get('/books/{category}', 'HomeController@category');
