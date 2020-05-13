@@ -1,6 +1,11 @@
 @extends('layouts.app')
 @section('content')
     <div class="container">
+    @if (session('success'))
+        <div class="alert alert-success" role="alert">
+            {{ session('success') }}
+        </div>
+    @endif
     @include('admin.users._modal')
         <div class="row">
             @foreach ($users as $user)
@@ -23,6 +28,7 @@
                     @else
                         <button type="submit" onClick="activation(this,'{{$user->id}}')" class="btn btn-danger">Deactivate</button>
                     @endif
+                    <a class="btn btn-primary" href="/user/{{$user->id}}/edit">Edit</a>
                 </div>
             </div>
             @endforeach

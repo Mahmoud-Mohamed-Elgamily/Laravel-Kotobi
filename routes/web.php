@@ -25,7 +25,9 @@ Route::resource('book', 'BooksController');
 Route::resource('category', 'CategoriesController');
 
 
-Route::get('/admin/users', 'AdminController@list_users')->name('list_useres');
+Route::get('/admin/users', 'AdminController@list_users')->name('list_users');
 Route::post('/admin/user/promotion', 'AdminController@promotion')->name('promotion');
 Route::post('/admin/user/activation', 'AdminController@activation')->name('activation');
+Route::get('user/{user}/edit', 'AdminController@edit_user')->name('edit_user');
+Route::post('user/{user}/edit', 'AdminController@update_user')->name('update_user');
 
