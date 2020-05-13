@@ -14,12 +14,16 @@ class AdminController extends Controller
         $this->middleware('is.admin');
     }
 
+    //list all users
+    //GET /admin/users
     public function list_users()
     {
         $users = User::paginate(5);
         return view('admin.users.list_users',['users' => $users]);
     }
 
+    //promoting to admin
+    //POST /admin/user/promotion
     public function promotion(Request $request)
     {
         if(@auth::user()->is_admin){
@@ -35,6 +39,8 @@ class AdminController extends Controller
         return response()->json(null,500);
     }
 
+    //activate user
+    //POST /admin/user/activation
     public function activation(Request $request)
     {
         if(@auth::user()->is_admin){
@@ -50,13 +56,16 @@ class AdminController extends Controller
         return response()->json(null,500);
     }
 
-
+    //open edit user form
+    //GET /admin/user/{user}/edit
     public function edit_user(Request $request, User $user)
     {
-        // echo($user);
         return view('admin.users.edit',['user' => $user]);
     }
 
+
+    //send edit user form
+    //POST /admin/user/{user}/edit
     public function update_user(UserRequest $request, User $user)
     {
         if(@auth::user()->is_admin){
