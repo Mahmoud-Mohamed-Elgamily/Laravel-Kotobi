@@ -43,17 +43,23 @@
                                 Books
                             </a>
                         </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" href="{{ url('/book/chart') }}">
+                                Books Profit
+                            </a>
+                        </li>
+                    @else
+                        <li class="nav-item active">
+                            <a class="nav-link" href="{{ url('/') }}">
+                                My Books
+                            </a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" href="{{ url('/') }}">
+                                Favourite Books
+                            </a>
+                        </li>
                     @endif
-                    <li class="nav-item active">
-                        <a class="nav-link" href="{{ url('/') }}">
-                            My Books
-                        </a>
-                    </li>
-                    <li class="nav-item active">
-                        <a class="nav-link" href="{{ url('/') }}">
-                            Favourite Books
-                        </a>
-                    </li>
                 </ul>
                 @endif
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
