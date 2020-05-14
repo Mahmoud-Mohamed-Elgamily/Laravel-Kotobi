@@ -52,7 +52,7 @@ class HomeController extends Controller
 
     public function index()
     {
-        $categories = Category::all();
+        $categories = $this->getCategories();
         $books = Book::paginate(8);
         if (Auth::check()) {
             $books = $this->addrate($books);
@@ -69,7 +69,7 @@ class HomeController extends Controller
     }
     
     public function category($category){
-        $categories = Category::all();
+        $categories = $this->getCategories();
         $current_category = Category::find($category);
         $books = Category::find($category)->books()->paginate(8);
         // dd(count($books));
@@ -79,5 +79,15 @@ class HomeController extends Controller
         } else {
             return view('home.landing', compact('books','categories', 'current_category'));
         }
+    }
+
+    private function getCategories(){
+        $allbooks = Book::all();
+        $arr=array();
+        foreach ($allbooks as $book) {
+            array_push($arr,$book->category->id);
+        }
+        $categories = Category::find($arr);
+        return $categories;
     }
 }
