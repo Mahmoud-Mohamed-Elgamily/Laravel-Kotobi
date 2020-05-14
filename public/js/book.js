@@ -8,7 +8,7 @@ function removeFav(bookId,userId){
       });
     $.ajax({
         type: 'post',
-        url: 'http://localhost:8001/removefavorite',
+        url: 'http://localhost:8000/removefavorite',
         data: {
             'user_id': userId,
             'book_id': bookID,
@@ -35,7 +35,7 @@ function addFav(bookId,userId){
       });
     $.ajax({
         type: 'post',
-        url: 'http://localhost:8001/addfavorite',
+        url: 'http://localhost:8000/addfavorite',
         data: {
             'user_id': userId,
             'book_id': bookID,
