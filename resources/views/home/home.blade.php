@@ -5,7 +5,7 @@
   <div class="row">
     <div class="col-sm-6 text-center">
     {!! Form::open(['url' => 'search' ,'class'=>"form-inline d-block" ,'method'=>'get']) !!}
-      {!! Form::text('search',null,['class' => 'form-control mr-sm-2','placeholder'=>"Search",'aria-label'=>"Search"]) !!}
+      {!! Form::text('search',null,['class' => 'form-control mr-sm-2','placeholder'=>"Search By title or Author",'aria-label'=>"Search"]) !!}
       {!! Form::submit('Search',['class'=>'btn btn-outline-primary my-2 my-sm-0'])  !!}
     {!! Form::close() !!}
  

@@ -73,7 +73,7 @@ class HomeController extends Controller
         $searchTerm = $request->search;
         $books =Book::query()
         ->where('title', 'LIKE', "%{$searchTerm}%") 
-        ->orWhere('description', 'LIKE', "%{$searchTerm}%") 
+        ->orWhere('author', 'LIKE', "%{$searchTerm}%") 
         ->paginate(2);
         $books->appends(['search' => $searchTerm]);
         return $this->viewBooks($books);
