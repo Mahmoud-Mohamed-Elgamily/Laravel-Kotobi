@@ -4,10 +4,11 @@
 <div class="container">
   <div class="row">
     <div class="col-sm-6 text-center">
-      <form class="form-inline d-block">
-        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
-      </form>
+    {!! Form::open(['url' => 'search' ,'class'=>"form-inline d-block" ,'method'=>'get']) !!}
+      {!! Form::text('search',null,['class' => 'form-control mr-sm-2','placeholder'=>"Search",'aria-label'=>"Search"]) !!}
+      {!! Form::submit('Search',['class'=>'btn btn-outline-primary my-2 my-sm-0'])  !!}
+    {!! Form::close() !!}
+ 
     </div>
     <div class="col-sm-6 text-center">
       <div class="btn-group" role="group" aria-label="Basic example">
@@ -77,7 +78,7 @@
             </div>
           @endforeach
         @else
-            <h1>There's no books in this category</h1>
+            <h1>There's no results</h1>
         @endif
           
       </div>
@@ -85,4 +86,12 @@
   </div>
   {{ $books->links() }}
 </div>
+<script>
+  function search() {
+        let searchBox=document.getElementById('search-box').value
+        console.log(searchBox)
+        
+    }
+
+</script>
 @endsection
