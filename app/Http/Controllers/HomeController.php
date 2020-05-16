@@ -47,7 +47,7 @@ class HomeController extends Controller
         $books->setCollection(
             $books->sortByDesc($sort_value)
         );
-        return view('home.home', ['books' => $books]);
+        return $this->viewBooks($books);
     }
 
     public function index()
