@@ -52,20 +52,8 @@ class HomeController extends Controller
 
     public function index()
     {
-        $categories = $this->getCategories();
         $books = Book::paginate(8);
-        if (Auth::check()) {
-            $books = $this->addrate($books);
-            return view('home.home', [
-                'books' => $books,
-                'categories' => $categories
-            ]);
-        } else {
-            return view('home.landing', [
-                'books' => $books,
-                'categories' => $categories
-            ]);
-        }
+        return $this->viewBooks($books);
     }
     
     public function category($category){
@@ -78,6 +66,33 @@ class HomeController extends Controller
             return view('home.home', compact('books','categories', 'current_category'));
         } else {
             return view('home.landing', compact('books','categories', 'current_category'));
+        }
+    }
+
+    public function search_books(Request $request){
+        $searchTerm = $request->search;
+        $books =Book::query()
+        ->where('title', 'LIKE', "%{$searchTerm}%") 
+        ->orWhere('author', 'LIKE', "%{$searchTerm}%") 
+        ->paginate(2);
+        $books->appends(['search' => $searchTerm]);
+        return $this->viewBooks($books);
+    }
+
+    private function viewBooks($books)
+    {
+        $categories = $this->getCategories();
+        if (Auth::check()) {
+            $books = $this->addrate($books);
+            return view('home.home', [
+                'books' => $books,
+                'categories' => $categories
+            ]);
+        }else{
+            return view('home.landing', [
+                'books' => $books,
+                'categories' => $categories
+            ]);
         }
     }
 

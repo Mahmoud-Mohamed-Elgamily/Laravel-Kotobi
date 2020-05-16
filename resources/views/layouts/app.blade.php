@@ -92,7 +92,7 @@
                         @else
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                {{ Auth::user()->name }} <span class="caret"></span>
+                                Welcome {{ Auth::user()->username }} <span class="caret"></span>
                                 @if(Auth::user()->avatar  != null)
                                     <img src="{{ asset('storage/' . Auth::user()->avatar) }}" class="border border-success rounded-circle" width="45px" height="45px" alt="...">
                                 @else

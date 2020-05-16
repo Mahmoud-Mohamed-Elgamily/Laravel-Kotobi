@@ -34,6 +34,7 @@ Route::post('/admin/user/promotion', 'AdminController@promotion')->name('promoti
 Route::post('/admin/user/activation', 'AdminController@activation')->name('activation');
 Route::get('/admin/user/{user}/edit', 'AdminController@edit_user')->name('edit_user');
 Route::post('/admin/user/{user}/edit', 'AdminController@update_user')->name('update_user');
+Route::get('search', 'HomeController@search_books');
 Route::post('addfavorite', 'FavouriteController@addfavorite');
 Route::post('removefavorite', 'FavouriteController@removefavorite');
 
