@@ -21,6 +21,10 @@ Route::get('/403', function () {
 });
 Route::get('/sort/{sort_value}', 'HomeController@sort')->name('rate');
 Route::get('book/chart', 'BooksController@chart');
+
+Route::get('book/{book}/rate', 'BooksController@getRate');
+Route::post('book/{book}/rate', 'BooksController@rate');
+
 Route::resource('book', 'BooksController');
 Route::resource('category', 'CategoriesController');
 

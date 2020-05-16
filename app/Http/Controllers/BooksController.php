@@ -10,12 +10,13 @@ use Auth;
 use App\Charts\BooksProfit;
 use App\LeaseDetail;
 use Carbon\Carbon;
+use App\Rate;
 
 class BooksController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('is.admin');
+        $this->middleware('is.admin')->except('show','getRate','rate');
     }
     /**
      * Display a listing of the resource.
@@ -25,7 +26,7 @@ class BooksController extends Controller
     public function index()
     {
         $books = Book::all();
-        return view('books.index',compact('books'));
+        return view('books.index',compact('books','rate'));
     }
 
 
@@ -59,8 +60,7 @@ class BooksController extends Controller
         // }
 
         //SOL TWO
-        $result= LeaseDetail::select('created_at','price')->whereBetween('created_at', [Carbon::now()->startOfWeek(),Carbon::now()->endOfWeek()])
-        ->get()->groupBy( function($date){  return Carbon::parse($date->created_at)->format('M d Y'); })->map(function ($row){ return $row->sum('price');})->toArray();   
+        $result= LeaseDetail::select('created_at','price')->whereBetween('created_at', [Carbon::now()->startOfWeek(),Carbon::now()->endOfWeek()])->get()->groupBy( function($date){  return Carbon::parse($date->created_at)->format('M d Y'); })->map(function ($row){ return $row->sum('price');})->toArray();   
         $weekStart=Carbon::now()->startOfWeek();
         $weekEnd=Carbon::now()->endOfWeek();
         $dateInterval = \DateInterval::createFromDateString('1 day');
@@ -83,6 +83,49 @@ class BooksController extends Controller
         return view('books.chart',compact('chart'));
     }
 
+    /**
+     * get book rate
+     *
+     * @param  \App\Book  $book
+     * @return \Illuminate\Http\Response
+     */
+    public function getRate(Book $book)
+    {
+        $userId=Auth::user()->id;
+        $bookRate=Rate::select('rating')->where([
+            ['user_id', '=', $userId ],
+            ['book_id', '=', $book->id],
+        ])->get();
+        echo json_encode(['book_rate'=>$bookRate]);
+    }
+
+    /**
+     * store book rate
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Book  $book
+     * @return \Illuminate\Http\Response
+     */
+    public function rate(Request $request, Book $book)
+    {
+        $userId=Auth::user()->id;
+        $bookRate=Rate::where([
+            ['user_id', '=', $userId],
+            ['book_id', '=', $book->id]])->get();
+        $rates=$bookRate->toArray();
+        // var_dump($bookRate) ;
+        if(count($rates)>0)
+        {
+            $bookRate[0]->update(['rating' => $request->book_rate]);
+            echo "update";
+        }
+        else
+        {
+            Rate::create(['user_id'=> $userId,'book_id'=>$book->id,'rating'=>$request->book_rate]);
+            echo "new";
+        }
+        
+    }
 
 
     /**

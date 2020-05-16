@@ -9,6 +9,16 @@
         <div class="row">
             <div class="col-md-6 mb-4" >
                 <img src="{{ asset('storage/' . $book->image) }}" class="img-fluid" style="width:500px;height:260px;object-fit: cover;">
+                @if(Auth::user()->is_admin == false)
+                    <!-- rating -->
+                    <div style="margin-top:30px;">
+                        <h4>Rate this book </h4>
+                        <span id="rateYo">
+                            <input type="hidden" id="bookId" value="{{$book->id}}">
+                            <input type="hidden" id="userId" value="{{Auth::user()->id}}">
+                        </span>
+                    </div>
+                @endif
             </div>
             <div class="col-md-6 mb-4">
                 <div class="p-4">
@@ -24,7 +34,7 @@
                         <span class="text-muted float-right fav-add" style="{{ $is_favourite ? 'display: none;' : '' }}" onclick="addFav({{$book->id}},{{Auth::user()->id}})"> 
                             <i class="fa fa-heart fa-2x ml-1"></i>
                         </span>
-                          
+                       
 
                     </p>
                     <p class=" font-weight-bold text-muted">Author: {{$book->author}}</p>
@@ -37,6 +47,9 @@
                             <i class="fas fa-shopping-cart ml-1"></i></button>
                     </form>
                 </div>
+                
+                
+                
             </div>
         </div>
         <div class="row">
@@ -46,5 +59,6 @@
 </main
 @push('scripts')
     <script src="{{ asset('js/book.js') }}" defer></script>
+    <script src="{{ asset('js/rate.js') }}" defer></script>
 @endpush
 @endsection

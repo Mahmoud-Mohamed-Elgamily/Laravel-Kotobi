@@ -1,6 +1,7 @@
 function removeFav(bookId,userId){
     let bookID = bookId;
     let userID = userId;
+
     $.ajaxSetup({
         headers: {
           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
