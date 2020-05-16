@@ -19,4 +19,8 @@ class Book extends Model
     {
         return $this->hasMany('App\Rate');
     }
+    public function comments()
+    {
+        return $this->hasMany('App\Comment');
+    }
 }

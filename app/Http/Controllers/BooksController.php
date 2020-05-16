@@ -161,9 +161,10 @@ class BooksController extends Controller
      */
     public function show($id)
     {
-        
+        $book = Book::findOrFail($id);
+        $comments = $book->comments ; 
         $is_favourite = Favourite::where(['user_id'=>Auth::id(),'book_id'=>$id])->get()->count();
-        return view('books.show', ['book' => Book::findOrFail($id),'is_favourite'=>$is_favourite]);
+        return view('books.show', ['book' => $book ,'is_favourite'=>$is_favourite,'comments'=>$comments]);
     }
 
     /**

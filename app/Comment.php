@@ -9,5 +9,7 @@ class Comment extends Model
 {
     use SoftDeletes;
 
-    //
+    protected $fillable = [
+        'user_id', 'book_id', 'comment_body'
+    ];
 }
