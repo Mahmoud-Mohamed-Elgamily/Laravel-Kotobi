@@ -50,4 +50,10 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Book::class, 'rates');
     }
+    public function comments()
+    {
+        return $this->belongsToMany(Comment::class);
+    }
+
+
 }

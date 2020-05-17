@@ -18,7 +18,7 @@
     @forelse ($comments as $comment)
         <div class="card mt-4">
             <div class="card-header pl-2">
-                <h6 class="card-title">{{ Auth::user()->name }}</h6>
+                <h6 class="card-title">{{ $comment->user->name }}</h6>
                 <small class="text-muted">{{date('d-m-Y g:ia', strtotime($comment->created_at))}}
 </small>
                 <!-- <small class="text-muted">{{ Carbon\Carbon::parse($comment->created_at)->diffForHumans()}}</small> -->
