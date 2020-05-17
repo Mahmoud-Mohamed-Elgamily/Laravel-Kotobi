@@ -15,14 +15,17 @@ function removeFav(bookId,userId){
             'book_id': bookID,
         },
         success: function (data) {
-            // console.log(data);
-            // hide add button
             $('.fav-remove').hide();
-            // show delete button
             $('.fav-add').show();
+            $('.remove-alert').show().delay(1500).queue(function(nxt) {
+                $(this).hide();
+                nxt();
+          });
+
         },
         error: function (XMLHttpRequest) {
             // handle error
+            console.log(XMLHttpRequest);
         }
     });
 }
@@ -42,14 +45,17 @@ function addFav(bookId,userId){
             'book_id': bookID,
         },
         success: function (data) {
-            // console.log(data);
-            // hide add button
+            
             $('.fav-add').hide();
-            // show delete button
             $('.fav-remove').show();
+            $('.add-alert').show().delay(1500).queue(function(nxt) {
+                $(this).hide();
+                nxt();
+          });
+
         },
         error: function (XMLHttpRequest) {
-            // handle error
+            console.log(XMLHttpRequest);
         }
     });
 }
@@ -57,7 +63,6 @@ function addComment(bookId,userId){
     let bookID = bookId;
     let userID = userId;
     let comment = $("textarea").val();
-    // console.log(comment);
     $.ajaxSetup({
         headers: {
           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -101,10 +106,11 @@ function addComment(bookId,userId){
             }
         },
         error: function (XMLHttpRequest) {
-            // handle error
+            console.log(XMLHttpRequest);
         }
     });
 }
 $('textarea').focus(function(){
     $('textarea').css('border-color','');
 });
+

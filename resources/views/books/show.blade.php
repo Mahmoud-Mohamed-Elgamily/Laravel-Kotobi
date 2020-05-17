@@ -3,9 +3,19 @@
 @section('title', 'Books')
     
 @section('content')
+
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <main>
+
     <div class="container dark-grey-text mt-5">
+        <div class="alert alert-success add-alert" 
+        role="alert" style="display:none">
+        <strong>Sucessfully  </strong> Added to favorite.
+        </div>
+        <div class="alert alert-danger remove-alert" 
+        role="alert" style="display:none">
+        <strong>Sucessfully  </strong> Removed from favorite.
+        </div>
         <div class="row">
             <div class="col-md-6 mb-4" >
                 <img src="{{ asset('storage/' . $book->image) }}" class="img-fluid" style="width:500px;height:260px;object-fit: cover;">
@@ -23,25 +33,32 @@
             <div class="col-md-6 mb-4">
                 <div class="p-4">
                     <p class="lead">
+                        <h2>{{$book->title}}</h2>
                     <div>
                     </div>
                         <span>${{$book->price_per_day}}</span>
                         <span class="badge badge-warning mt-0">per day</span>
     
-                        <span  class="text-danger float-right fav-remove" style="{{ $is_favourite ? '' : 'display: none;' }}" onclick="removeFav({{$book->id}},{{Auth::user()->id}})">
+                        <span  class="text-danger float-right fav-remove" 
+                        style="{{ $is_favourite ? '' : 'display: none;' }}" 
+                        onclick="removeFav({{$book->id}},{{Auth::user()->id}})">
                             <i class="fa fa-heart fa-2x ml-1"></i>
                         </span>
-                        <span class="text-muted float-right fav-add" style="{{ $is_favourite ? 'display: none;' : '' }}" onclick="addFav({{$book->id}},{{Auth::user()->id}})"> 
+                        <span class="text-muted float-right fav-add" 
+                        style="{{ $is_favourite ? 'display: none;' : '' }}" 
+                        onclick="addFav({{$book->id}},{{Auth::user()->id}})"> 
                             <i class="fa fa-heart fa-2x ml-1"></i>
                         </span>
                        
 
                     </p>
-                    <p class=" font-weight-bold text-muted">Author: {{$book->author}}</p>
+                    <p class=" font-weight-bold text-muted">
+                        Author: {{$book->author}}</p>
                     <p class="lead font-weight-bold">Description</p>
                     <p>{{$book->description}}</p>
                     <form class="d-flex justify-content-left">
-                        <input type="number" value="1" aria-label="Search" class="form-control" style="width: 100px">
+                        <input type="number" value="1" aria-label="Search" 
+                        class="form-control" style="width: 100px">
                         <button class="btn btn-primary ml-2" type="submit">
                             Lease
                             <i class="fas fa-shopping-cart ml-1"></i></button>
@@ -54,6 +71,14 @@
         </div>
         <div class="row">
         @include('books.comments')
+        </div>
+        <div class="row">
+        @if(count($related_items)>5)
+            @include('books.related')
+        @else
+            @include('books.related_less')
+        @endif
+        
         </div>
     </div>
 </main

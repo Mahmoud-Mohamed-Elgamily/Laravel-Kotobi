@@ -163,8 +163,19 @@ class BooksController extends Controller
     {
         $book = Book::findOrFail($id);
         $comments = $book->comments ; 
+        $related = Book::where('category_id',$book->category_id)
+        ->inRandomOrder()
+        ->limit(7) 
+        ->get();
         $is_favourite = Favourite::where(['user_id'=>Auth::id(),'book_id'=>$id])->get()->count();
-        return view('books.show', ['book' => $book ,'is_favourite'=>$is_favourite,'comments'=>$comments]);
+        return view('books.show', 
+        [
+            'book' => $book ,
+            'is_favourite'=>$is_favourite,
+            'comments'=>$comments,
+            'related_items'=>$related
+            
+        ]);
     }
 
     /**
@@ -215,6 +226,7 @@ class BooksController extends Controller
     }
 
     private function validateRequest($request){
+        
         return $request->validate([
             'title'=>'required|min:3|unique:books,title,Null,id,deleted_at,NULL',
             'description'=>'required|min:10|string',
