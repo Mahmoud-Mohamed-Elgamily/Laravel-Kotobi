@@ -161,21 +161,9 @@ class BooksController extends Controller
      */
     public function show($id)
     {
-        $book = Book::findOrFail($id);
-        $comments = $book->comments ; 
-        $related = Book::where('category_id',$book->category_id)
-        ->inRandomOrder()
-        ->limit(7) 
-        ->get();
+        
         $is_favourite = Favourite::where(['user_id'=>Auth::id(),'book_id'=>$id])->get()->count();
-        return view('books.show', 
-        [
-            'book' => $book ,
-            'is_favourite'=>$is_favourite,
-            'comments'=>$comments,
-            'related_items'=>$related
-            
-        ]);
+        return view('books.show', ['book' => Book::findOrFail($id),'is_favourite'=>$is_favourite]);
     }
 
     /**
@@ -199,7 +187,16 @@ class BooksController extends Controller
      */
     public function update(Request $request, Book $book)
     {
-        $book->update($this->validateRequest($request));
+        $data = $request->validate([
+            'title'=>'required|min:3|unique:books,title,Null,id,deleted_at,NULL'.$book->id,
+            'description'=>'required|min:10|string',
+            'author'=>'required|string',
+            'copies'=>'required|integer|min:1|max:100',
+            'price_per_day'=>'required|numeric|min:1|max:100',
+            'image' => 'sometimes|file|image',
+            'category_id'=>'required|integer'
+        ]);
+        $book->update($data);
         $this->storeImage($book);
         return redirect('book')->with('message','book has been updated successfully ^_^');
     }
@@ -226,7 +223,6 @@ class BooksController extends Controller
     }
 
     private function validateRequest($request){
-        
         return $request->validate([
             'title'=>'required|min:3|unique:books,title,Null,id,deleted_at,NULL',
             'description'=>'required|min:10|string',
