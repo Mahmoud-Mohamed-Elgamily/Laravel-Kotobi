@@ -199,7 +199,7 @@ class BooksController extends Controller
      */
     public function update(Request $request, Book $book)
     {
-        $book->update($this->validateRequest($request));
+        $book->update($this->validateRequest($request,$book));
         $this->storeImage($book);
         return redirect('book')->with('message','book has been updated successfully ^_^');
     }
@@ -225,10 +225,10 @@ class BooksController extends Controller
         }
     }
 
-    private function validateRequest($request){
+    private function validateRequest($request,$book){
         
         return $request->validate([
-            'title'=>'required|min:3|unique:books,title,Null,id,deleted_at,NULL',
+            'title'=>'required|min:3|unique:books,title,Null,id,deleted_at,NULL'.$book->id,
             'description'=>'required|min:10|string',
             'author'=>'required|string',
             'copies'=>'required|integer|min:1|max:100',
