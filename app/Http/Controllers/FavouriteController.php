@@ -28,8 +28,7 @@ class FavouriteController extends Controller
         return view('favourite.index', 
         [
             'fav_books' => $books 
-            
-            
+
         ]);
         
     }
