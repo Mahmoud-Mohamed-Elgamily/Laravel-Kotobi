@@ -3,7 +3,11 @@
 @section('title', 'Books')
     
 @section('content')
-
+@if (session()->has("deleted"))
+<div class="alert alert-success" role="alert">
+    <strong>Success</strong> {{session()->get("deleted")}}
+  </div>
+@endif
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <main>
 

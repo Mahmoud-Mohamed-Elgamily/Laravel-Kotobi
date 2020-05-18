@@ -38,6 +38,7 @@ Route::get('search', 'HomeController@search_books');
 Route::post('addfavorite', 'FavouriteController@addfavorite');
 Route::post('removefavorite', 'FavouriteController@removefavorite');
 Route::post('addcomment', 'CommentController@create');
+Route::post('/removecomment', 'CommentController@destroy')->name('comment.destroy');
 
 
 Route::get('/books/{category}', 'HomeController@category');

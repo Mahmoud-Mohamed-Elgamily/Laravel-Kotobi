@@ -1,3 +1,4 @@
+
 <div class="container">
     <div class="row">
         <div class="col-12">
@@ -20,13 +21,30 @@
             <div class="card-header pl-2">
                 <h6 class="card-title">{{ $comment->user->name }}</h6>
                 <small class="text-muted">{{date('d-m-Y g:ia', strtotime($comment->created_at))}}
-</small>
+                </small>
                 <!-- <small class="text-muted">{{ Carbon\Carbon::parse($comment->created_at)->diffForHumans()}}</small> -->
+                
+                
+                @if($comment->user_id == Auth::user()->id)
+                <!-- <form style="display:inline" action="{{route('comment.destroy',['comment'=>$comment])}}" method="POST">
+                    @method('DELETE')
+                    @csrf
+                    <button class="btn float-right"
+                    onclick="removeComment({{$book->id}},{{Auth::user()->id}})" > 
+                        <i class="fas fa-times fa-lg ml-1 text-danger"></i>
+                    </button>
+                </form> -->
+                <button class="btn float-right"
+                    onclick="removeComment(this,{{$comment->id}})" > 
+                        <i class="fas fa-times fa-lg ml-1 text-danger"></i>
+                    </button>
+                @endif
             </div>
             <div class="card-body">
                 
                 <p class="card-text">{{$comment->comment_body}}</p>
             </div>
+            
             
         </div>
     @empty

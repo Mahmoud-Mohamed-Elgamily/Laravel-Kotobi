@@ -86,22 +86,32 @@ function addComment(bookId,userId){
                 if ($(".no-comment").length) {
                     $(".no-comment").hide();
                 }
-                
+                let id = comment['comment']['id'];
                 $(".error").hide();
                 $('textarea').css('border-color', '');
                 new_comment = `<div class="card mt-4">
                 <div class="card-header pl-2">
-                    <h6 class="card-title">${comment['user']}</h6>
+                    <h6 class="card-title">${comment['user']['name']}</h6>
                     <small class="text-muted">${comment['date']}</small>
-                    <!-- <small class="text-muted">{{ Carbon\Carbon::parse($comment->created_at)->diffForHumans()}}</small> -->
+                    <button class="btn float-right btn${id}" > 
+                        <i class="fas fa-times fa-lg ml-1 text-danger"></i>
+                    </button>
                 </div>
                 <div class="card-body">
                     
-                    <p class="card-text">${comment['comment']}</p>
+                    <p class="card-text">${comment['comment']['comment_body']}</p>
                 </div>
                 
             </div>`;
+            
+            
                 $(".cards").append(new_comment);
+                
+                // console.log(btn[0]);
+                $(`.btn${id}`).click(function (){
+                    console.log($(this));
+                    removeComment($(this)[0],id);
+                });
                 $("textarea").val('');
             }
         },
@@ -109,6 +119,31 @@ function addComment(bookId,userId){
             console.log(XMLHttpRequest);
         }
     });
+}
+
+
+function removeComment(elem,commentId){
+    let commentID = commentId;
+    let card = $($(elem).parents('.card')[0]);
+    $.ajaxSetup({
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+      });
+    $.ajax({
+        type: 'post',
+        url: 'http://localhost:8000/removecomment',
+        data: {
+            'comment_id': commentID,
+        },
+        success: function (data) {
+            card.hide();
+        },
+        error: function (XMLHttpRequest) {
+            console.log(XMLHttpRequest);
+        }
+    });
+    
 }
 $('textarea').focus(function(){
     $('textarea').css('border-color','');
