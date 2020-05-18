@@ -39,5 +39,6 @@ Route::post('addfavorite', 'FavouriteController@addfavorite');
 Route::post('removefavorite', 'FavouriteController@removefavorite');
 Route::post('addcomment', 'CommentController@create');
 
+Route::post('/user/{uId}/lease/{bId}','LeaseController@store');
 
 Route::get('/books/{category}', 'HomeController@category');
