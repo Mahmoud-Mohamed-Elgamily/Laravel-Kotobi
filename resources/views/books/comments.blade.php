@@ -1,7 +1,7 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-12">
+        <div class="col-8">
             <div class="card">
                 <h5 class="card-header h5 bg-dark text-light">Comments</h5>
                 <div class="card-body">
@@ -13,6 +13,19 @@
                 </div>
             </div>
         </div>
+        <div class="offset-lg-1 col-3">
+        @if(Auth::user()->is_admin == false)
+                    <!-- rating -->
+                    <div style="margin-top:30px;">
+                        <h4>Rate this book </h4>
+                        <span id="rateYo">
+                            <input type="hidden" id="bookId" value="{{$book->id}}">
+                            <input type="hidden" id="userId" value="{{Auth::user()->id}}">
+                        </span>
+                    </div>
+                @endif
+
+        </div>
        
     </div>
     <div class="cards">
@@ -23,21 +36,12 @@
                 <small class="text-muted">{{date('d-m-Y g:ia', strtotime($comment->created_at))}}
                 </small>
                 <!-- <small class="text-muted">{{ Carbon\Carbon::parse($comment->created_at)->diffForHumans()}}</small> -->
-                
-                
+
                 @if($comment->user_id == Auth::user()->id)
-                <!-- <form style="display:inline" action="{{route('comment.destroy',['comment'=>$comment])}}" method="POST">
-                    @method('DELETE')
-                    @csrf
-                    <button class="btn float-right"
-                    onclick="removeComment({{$book->id}},{{Auth::user()->id}})" > 
-                        <i class="fas fa-times fa-lg ml-1 text-danger"></i>
-                    </button>
-                </form> -->
                 <button class="btn float-right"
-                    onclick="removeComment(this,{{$comment->id}})" > 
+                        onclick="removeComment(this,{{$comment->id}})" > 
                         <i class="fas fa-times fa-lg ml-1 text-danger"></i>
-                    </button>
+                </button>
                 @endif
             </div>
             <div class="card-body">

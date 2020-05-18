@@ -98,18 +98,14 @@ function addComment(bookId,userId){
                     </button>
                 </div>
                 <div class="card-body">
-                    
                     <p class="card-text">${comment['comment']['comment_body']}</p>
                 </div>
                 
             </div>`;
             
-            
                 $(".cards").append(new_comment);
                 
-                // console.log(btn[0]);
                 $(`.btn${id}`).click(function (){
-                    console.log($(this));
                     removeComment($(this)[0],id);
                 });
                 $("textarea").val('');
