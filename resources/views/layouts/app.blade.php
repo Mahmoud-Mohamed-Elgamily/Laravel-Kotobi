@@ -47,6 +47,11 @@
                             </a>
                         </li>
                         <li class="nav-item active">
+                            <a class="nav-link" href="{{ url('/category') }}">
+                                Categories
+                            </a>
+                        </li>
+                        <li class="nav-item active">
                             <a class="nav-link" href="{{ url('/book/chart') }}">
                                 Books Profit
                             </a>

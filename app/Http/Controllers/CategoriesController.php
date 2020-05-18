@@ -80,7 +80,7 @@ class CategoriesController extends Controller
     public function update(Request $request, Category $category)
     {
         $category->update($request->validate([
-            'name'=>'required|min:3|unique:categories',
+            'name'=>'required|min:3|unique:categories'.$category->id,
         ]));
         return redirect('category')->with('message','category has been updated successfully ^_^');
 
