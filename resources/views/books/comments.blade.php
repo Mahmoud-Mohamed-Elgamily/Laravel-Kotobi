@@ -30,7 +30,7 @@
             
         </div>
     @empty
-        <p class="text-danger border p-2 no-comment">No Comments  Yet !</p>
+        <p class="alert alert-danger p-2 no-comment">There is No Comments  Yet ! <strong>Add one</strong></p>
     @endforelse
     </div>
 </div>

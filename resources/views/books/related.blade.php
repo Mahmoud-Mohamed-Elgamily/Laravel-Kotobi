@@ -13,8 +13,11 @@
             @forelse ($related_items as $rel_book)
             @if ($book->id != $rel_book->id) 
                 <div class="carousel-item col-12 col-sm-6 col-md-4 col-lg-3 {{$loop->iteration ==1 ? 'active':''}} ">
-                        <img src="{{ asset('storage/' . $rel_book->image) }}" 
-                        class="img-fluid mx-auto d-block related" alt="{{$rel_book->title}} Book Image">
+                        <a href="/book/{{$rel_book->id}}">
+                            <img src="{{ asset('storage/' . $rel_book->image) }}" 
+                            class="img-fluid mx-auto d-block related" 
+                            alt="{{$rel_book->title}} Book Image">
+                        </a>
                         <h5 class="mt-2">
                         <a href="/book/{{$rel_book->id}}">{{$rel_book->title}}</a>
                     </h5>

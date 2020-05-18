@@ -19,8 +19,11 @@
         @forelse ($related_items as $rel_book)
         @if ($book->id != $rel_book->id) <!-- Prevent displaying current book -->
             <div class="card ml-4 ">
-                <img class="card-img-top img-fluid related" 
-                src="{{ asset('storage/' . $rel_book->image) }}" alt="Card image cap">
+                <a href="/book/{{$rel_book->id}}">
+                    <img class="card-img-top img-fluid related" 
+                    src="{{ asset('storage/' . $rel_book->image) }}" 
+                    alt="Card image cap">
+                </a>
                 <div class="card-body">
                     <h5 class="card-title">
                         <a href="/book/{{$rel_book->id}}">{{$rel_book->title}}</a>

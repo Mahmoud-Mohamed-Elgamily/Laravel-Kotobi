@@ -83,9 +83,13 @@
         @include('books.comments')
         </div>
         <div class="row">
-        @if(count($related_items)>5)
+        <!-- equal = 1 means only current book exist in this category 
+        and there is no related books-->
+        @if(count($related_items)==1)
+
+        @elseif(count($related_items)>5)
             @include('books.related')
-        @elseif (count($related_items)>6)
+        @else
             @include('books.related_less')
         @endif
         
