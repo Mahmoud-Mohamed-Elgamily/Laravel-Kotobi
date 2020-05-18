@@ -18,7 +18,14 @@
                         <h5 class="mt-2">
                         <a href="/book/{{$rel_book->id}}">{{$rel_book->title}}</a>
                     </h5>
-                        <small class="text-muted">{{$rel_book->copies}} copies available</small>
+                        <small class=" {{$rel_book->copies ==0 ? 'text-white badge badge-danger':'text-muted'}}">
+                            @if ($rel_book->copies == 0)
+                                Not Available
+                            @else
+                                {{$rel_book->copies}} copies available
+                            @endif
+                            
+                        </small>
                 </div>    
             @endif
             @empty 

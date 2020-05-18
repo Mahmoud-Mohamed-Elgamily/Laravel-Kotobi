@@ -54,15 +54,25 @@
                     </p>
                     <p class=" font-weight-bold text-muted">
                         Author: {{$book->author}}</p>
-                    <p class="lead font-weight-bold">Description</p>
-                    <p>{{$book->description}}</p>
+                    <p class="lead font-weight-bold mb-1">Description</p>
+                    <p class="mb-1">{{$book->description}}</p>
+                    <small class=" mb-2 {{$book->copies ==0 ? 'text-white badge badge-danger':'text-white badge badge-success'}}">
+                            @if ($book->copies == 0)
+                                Not Available
+                                </small>  
+                            @else
+                                {{$book->copies}} copies available
+                  
+                    </small>
                     <form class="d-flex justify-content-left">
-                        <input type="number" value="1" aria-label="Search" 
-                        class="form-control" style="width: 100px">
-                        <button class="btn btn-primary ml-2" type="submit">
+                        <!-- <input type="number" value="1" aria-label="Search" 
+                        class="form-control" style="width: 100px"> -->
+                        <button class="btn btn-primary " type="submit">
                             Lease
                             <i class="fas fa-shopping-cart ml-1"></i></button>
+                            
                     </form>
+                    @endif
                 </div>
                 
                 
@@ -75,7 +85,7 @@
         <div class="row">
         @if(count($related_items)>5)
             @include('books.related')
-        @else
+        @elseif (count($related_items)>6)
             @include('books.related_less')
         @endif
         
