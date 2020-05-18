@@ -3,7 +3,11 @@
 @section('title', 'Books')
     
 @section('content')
-
+@if (session()->has("deleted"))
+<div class="alert alert-success" role="alert">
+    <strong>Success</strong> {{session()->get("deleted")}}
+  </div>
+@endif
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <main>
 
@@ -19,16 +23,7 @@
         <div class="row">
             <div class="col-md-6 mb-4" >
                 <img src="{{ asset('storage/' . $book->image) }}" class="img-fluid" style="width:500px;height:260px;object-fit: cover;">
-                @if(Auth::user()->is_admin == false)
-                    <!-- rating -->
-                    <div style="margin-top:30px;">
-                        <h4>Rate this book </h4>
-                        <span id="rateYo">
-                            <input type="hidden" id="bookId" value="{{$book->id}}">
-                            <input type="hidden" id="userId" value="{{Auth::user()->id}}">
-                        </span>
-                    </div>
-                @endif
+               
             </div>
             <div class="col-md-6 mb-4">
                 <div class="p-4">
