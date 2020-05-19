@@ -13,7 +13,7 @@
                     <!-- rating -->
                     <div style="margin-top:30px;">
                         <h4>Rate this book </h4>
-                        <span id="rateYo">
+                        <span id="rateYo" >
                             <input type="hidden" id="bookId" value="{{$book->id}}">
                             <input type="hidden" id="userId" value="{{Auth::user()->id}}">
                         </span>
