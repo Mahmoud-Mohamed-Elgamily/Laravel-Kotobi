@@ -22,7 +22,8 @@ ul.pagination{
   font-weight: bold;
 }
 
-a.lease{
+button.lease{
+  width: 100%;
   border-top-left-radius: unset;
   border-top-right-radius: unset;
 }

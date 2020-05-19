@@ -20,10 +20,10 @@ Route::get('/403', function () {
     return view('auth.403');
 });
 Route::get('/sort/{sort_value}', 'HomeController@sort')->name('rate');
-Route::get('book/chart', 'BooksController@chart');
 
-Route::get('book/{book}/rate', 'BooksController@getRate');
+Route::get('book/chart', 'BooksController@chart');
 Route::post('book/{book}/rate', 'BooksController@rate');
+Route::get('mybooks', 'BooksController@mybooks');
 
 Route::resource('book', 'BooksController');
 Route::resource('category', 'CategoriesController');
@@ -38,6 +38,9 @@ Route::get('search', 'HomeController@search_books');
 Route::post('addfavorite', 'FavouriteController@addfavorite');
 Route::post('removefavorite', 'FavouriteController@removefavorite');
 Route::post('addcomment', 'CommentController@create');
+Route::post('/removecomment', 'CommentController@destroy')->name('comment.destroy');
+Route::get('/myfavorite', 'FavouriteController@show')->name('favourite.show');
 
+Route::post('/user/{uId}/lease/{bId}','LeaseController@store');
 
 Route::get('/books/{category}', 'HomeController@category');
