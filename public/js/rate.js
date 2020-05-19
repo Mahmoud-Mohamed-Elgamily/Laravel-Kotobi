@@ -6,7 +6,7 @@ $(function () {
     });
     
   $("#rateYo").click(function () {
- 
+    $('#Rating').html("Your Rating");
     /* get rating */
     var rating = $rateYo.rateYo("rating");
     $.ajaxSetup({

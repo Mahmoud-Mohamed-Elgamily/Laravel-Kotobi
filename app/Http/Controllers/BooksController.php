@@ -11,12 +11,13 @@ use App\Charts\BooksProfit;
 use App\LeaseDetail;
 use Carbon\Carbon;
 use App\Rate;
+use App\User;
 
 class BooksController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('is.admin')->except('show','rate');
+        $this->middleware('is.admin')->except('show','rate','mybooks');
     }
     /**
      * Display a listing of the resource.
@@ -110,6 +111,24 @@ class BooksController extends Controller
             echo "new";
         }
 
+    }
+
+
+    /**
+     * Display My books.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function mybooks()
+    {
+        $mybooks=[];
+        $User_lease_details = User::where('id',Auth::id())->get()->first()->leaseDetails->where('date','>',Carbon::now());
+        // var_dump($User_lease_details);
+        foreach ($User_lease_details as $lease_detail) {
+            $mybooks[]=$lease_detail->book;
+        }
+        $currentDate=Carbon::now();
+        return view('books.mybooks',compact('mybooks','currentDate'));
     }
 
 

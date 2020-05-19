@@ -23,5 +23,9 @@ class Book extends Model
     {
         return $this->hasMany('App\Comment');
     }
+    public function leaseDetails()
+    {
+        return $this->hasMany('App\LeaseDetail');
+    }
     
 }

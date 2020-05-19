@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Kotobi') }}</title>
+    <title>Maktabty</title>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
@@ -30,7 +30,7 @@
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Kotobi') }}
+                    Maktabty
                 </a>
 
                 @if(Auth::check())
@@ -58,7 +58,7 @@
                         </li>
                     @else
                         <li class="nav-item active">
-                            <a class="nav-link" href="{{ url('/') }}">
+                            <a class="nav-link" href="{{ url('/mybooks') }}">
                                 My Books
                             </a>
                         </li>

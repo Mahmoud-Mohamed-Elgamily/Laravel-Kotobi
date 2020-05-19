@@ -45,6 +45,11 @@ class User extends Authenticatable
     {
         return $this->hasMany(Favourite::class);
     }
+
+    public function leasedetails()
+    {
+        return $this->hasMany(LeaseDetail::class);
+    }
     
     public function my_rate()
     {

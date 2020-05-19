@@ -17,11 +17,13 @@
                 @if(Auth::user()->is_admin == false)
                     <!-- rating -->    
                     <div style="margin-top:30px;" >
-                        <h4>Rate this book </h4>
+                        
                         @if($rate)
-                        <div id="rateYo" data-rateyo-rating="{{$rate->rating}}"  >
-                        </div>
+                            <h4>Your Rating </h4>
+                            <div id="rateYo" data-rateyo-rating="{{$rate->rating}}"  >
+                            </div>
                         @else
+                            <h4 id="Rating">Rate this book </h4>
                             <div id="rateYo" data-rateyo-rating="0"  >
                             </div>
                         @endif
