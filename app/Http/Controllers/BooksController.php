@@ -206,7 +206,15 @@ class BooksController extends Controller
      */
     public function update(Request $request, Book $book)
     {
-        $book->update($this->validateRequest($request,$book));
+        $book->update($request->validate([
+            'title'=>'required|min:3|unique:books,title,Null,id,deleted_at,NULL'.$book->id,
+            'description'=>'required|min:10|string',
+            'author'=>'required|string',
+            'copies'=>'required|integer|min:1|max:100',
+            'price_per_day'=>'required|numeric|min:1|max:100',
+            'image' => 'sometimes|file|image',
+            'category_id'=>'required|integer'
+        ]));
         $this->storeImage($book);
         return redirect('book')->with('message','book has been updated successfully ^_^');
     }
@@ -232,10 +240,10 @@ class BooksController extends Controller
         }
     }
 
-    private function validateRequest($request,$book){
+    private function validateRequest($request){
 
         return $request->validate([
-            'title'=>'required|min:3|unique:books,title,Null,id,deleted_at,NULL'.$book->id,
+            'title'=>'required|min:3|unique:books,title,Null,id,deleted_at,NULL',
             'description'=>'required|min:10|string',
             'author'=>'required|string',
             'copies'=>'required|integer|min:1|max:100',

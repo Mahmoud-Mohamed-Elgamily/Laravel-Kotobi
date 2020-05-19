@@ -43,7 +43,7 @@ class CategoriesController extends Controller
     public function store(Request $request)
     {
         $category = Category::create($request->validate([
-            'name'=>'required|min:3|unique:categories'.$category->id,
+            'name'=>'required|min:3|unique:categories',
         ]));
         return redirect('category')->with('message','a new category has been added ');
     }
@@ -79,8 +79,9 @@ class CategoriesController extends Controller
      */
     public function update(Request $request, Category $category)
     {
+        // dd($category->id);
         $category->update($request->validate([
-            'name'=>'required|min:3|unique:categories'.$category->id,
+            'name'=>'required|min:3|unique:categories,id',
         ]));
         return redirect('category')->with('message','category has been updated successfully ^_^');
 
