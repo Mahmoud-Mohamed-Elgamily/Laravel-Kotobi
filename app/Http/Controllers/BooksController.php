@@ -11,12 +11,13 @@ use App\Charts\BooksProfit;
 use App\LeaseDetail;
 use Carbon\Carbon;
 use App\Rate;
+use App\User;
 
 class BooksController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('is.admin')->except('show','getRate','rate');
+        $this->middleware('is.admin')->except('show','rate','mybooks');
     }
     /**
      * Display a listing of the resource.
@@ -30,7 +31,7 @@ class BooksController extends Controller
     }
 
 
-    
+
     /**
      * Display books chart
      *
@@ -48,7 +49,7 @@ class BooksController extends Controller
         //SOL ONE
         // $result= LeaseDetail::select('created_at','price')->whereYear('created_at', Carbon::today()->year)->whereMonth('created_at' , Carbon::today()->month)->get()
         // ->groupBy( function($date){ return Carbon::parse($date->created_at)->weekOfMonth; })->map(function ($row){ return $row->sum('price');});
-        
+
         // $chart->labels([Carbon::createFromDate($year, $month, 1)->format('M d Y'),
         //     Carbon::createFromDate($year, $month, 7),
         //     Carbon::createFromDate($year, $month, 14)->format('M d Y'),
@@ -60,7 +61,7 @@ class BooksController extends Controller
         // }
 
         //SOL TWO
-        $result= LeaseDetail::select('created_at','price')->whereBetween('created_at', [Carbon::now()->startOfWeek(),Carbon::now()->endOfWeek()])->get()->groupBy( function($date){  return Carbon::parse($date->created_at)->format('M d Y'); })->map(function ($row){ return $row->sum('price');})->toArray();   
+        $result= LeaseDetail::select('created_at','price')->whereBetween('created_at', [Carbon::now()->startOfWeek(),Carbon::now()->endOfWeek()])->get()->groupBy( function($date){  return Carbon::parse($date->created_at)->format('M d Y'); })->map(function ($row){ return $row->sum('price');})->toArray();
         $weekStart=Carbon::now()->startOfWeek();
         $weekEnd=Carbon::now()->endOfWeek();
         $dateInterval = \DateInterval::createFromDateString('1 day');
@@ -77,27 +78,12 @@ class BooksController extends Controller
             {
                 $data->push(0);
             }
-        }      
+        }
         $chart->labels($labels);
-        $chart->dataset('Books Profit per week', 'line', $data);  
+        $chart->dataset('Books Profit per week', 'line', $data);
         return view('books.chart',compact('chart'));
     }
 
-    /**
-     * get book rate
-     *
-     * @param  \App\Book  $book
-     * @return \Illuminate\Http\Response
-     */
-    public function getRate(Book $book)
-    {
-        $userId=Auth::user()->id;
-        $bookRate=Rate::select('rating')->where([
-            ['user_id', '=', $userId ],
-            ['book_id', '=', $book->id],
-        ])->get();
-        echo json_encode(['book_rate'=>$bookRate]);
-    }
 
     /**
      * store book rate
@@ -124,7 +110,26 @@ class BooksController extends Controller
             Rate::create(['user_id'=> $userId,'book_id'=>$book->id,'rating'=>$request->book_rate]);
             echo "new";
         }
-        
+
+    }
+
+
+    /**
+     * Display My books.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function mybooks()
+    {
+        $this->authorize('mybooks');
+        $mybooks=[];
+        $User_lease_details = User::where('id',Auth::id())->get()->first()->leaseDetails->where('date','>',Carbon::now());
+        // var_dump($User_lease_details);
+        foreach ($User_lease_details as $lease_detail) {
+            $mybooks[]=$lease_detail->book;
+        }
+        $currentDate=Carbon::now();
+        return view('books.mybooks',compact('mybooks','currentDate'));
     }
 
 
@@ -147,7 +152,7 @@ class BooksController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {   
+    {
         $book = Book::create($this->validateRequest($request));
         $this->storeImage($book);
         return redirect('book')->with('message','a new book has been added ');
@@ -161,9 +166,23 @@ class BooksController extends Controller
      */
     public function show($id)
     {
-        
+        $book = Book::findOrFail($id);
+        $rate =$book ->rate->where('user_id',Auth::id())->first();
+        $comments = $book->comments ;
+        $related = Book::where('category_id',$book->category_id)
+        ->inRandomOrder()
+        ->limit(7)
+        ->get();
         $is_favourite = Favourite::where(['user_id'=>Auth::id(),'book_id'=>$id])->get()->count();
-        return view('books.show', ['book' => Book::findOrFail($id),'is_favourite'=>$is_favourite]);
+        return view('books.show',
+        [
+            'book' => $book ,
+            'is_favourite'=>$is_favourite,
+            'comments'=>$comments,
+            'related_items'=>$related,
+            'rate'=>$rate
+
+        ]);
     }
 
     /**
@@ -187,16 +206,7 @@ class BooksController extends Controller
      */
     public function update(Request $request, Book $book)
     {
-        $data = $request->validate([
-            'title'=>'required|min:3|unique:books,title,Null,id,deleted_at,NULL'.$book->id,
-            'description'=>'required|min:10|string',
-            'author'=>'required|string',
-            'copies'=>'required|integer|min:1|max:100',
-            'price_per_day'=>'required|numeric|min:1|max:100',
-            'image' => 'sometimes|file|image',
-            'category_id'=>'required|integer'
-        ]);
-        $book->update($data);
+        $book->update($this->validateRequest($request,$book));
         $this->storeImage($book);
         return redirect('book')->with('message','book has been updated successfully ^_^');
     }
@@ -222,9 +232,10 @@ class BooksController extends Controller
         }
     }
 
-    private function validateRequest($request){
+    private function validateRequest($request,$book){
+
         return $request->validate([
-            'title'=>'required|min:3|unique:books,title,Null,id,deleted_at,NULL',
+            'title'=>'required|min:3|unique:books,title,Null,id,deleted_at,NULL'.$book->id,
             'description'=>'required|min:10|string',
             'author'=>'required|string',
             'copies'=>'required|integer|min:1|max:100',
