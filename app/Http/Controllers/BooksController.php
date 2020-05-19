@@ -121,6 +121,7 @@ class BooksController extends Controller
      */
     public function mybooks()
     {
+        $this->authorize('mybooks');
         $mybooks=[];
         $User_lease_details = User::where('id',Auth::id())->get()->first()->leaseDetails->where('date','>',Carbon::now());
         // var_dump($User_lease_details);
