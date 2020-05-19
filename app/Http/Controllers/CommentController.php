@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Book;
+use App\Comment;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Redirect;
+
 
 class CommentController extends Controller
 {
@@ -35,9 +38,9 @@ class CommentController extends Controller
                 'user_id'=>$request->user_id
             ]);
             $response = [
-                'comment' => $comment->comment_body,
+                'comment' => $comment,
                 'date'=> date('d-m-Y g:ia', strtotime($comment->created_at)),
-                'user'=> \Auth::user()->name
+                'user'=> \Auth::user()
                 
             ];
     
@@ -98,8 +101,12 @@ class CommentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
-        //
-    }
+    public function destroy(Request $request)
+    { 
+        $deletedRows = Comment::where(['id'=> $request->comment_id])->delete();
+        $obj = [
+            "status"=>$deletedRows
+        ];
+        return response()->json($obj);
+    }  
 }

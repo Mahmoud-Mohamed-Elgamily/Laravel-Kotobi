@@ -21,6 +21,8 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+    @stack('styles')
+
 </head>
 
 <body>
@@ -45,6 +47,11 @@
                             </a>
                         </li>
                         <li class="nav-item active">
+                            <a class="nav-link" href="{{ url('/category') }}">
+                                Categories
+                            </a>
+                        </li>
+                        <li class="nav-item active">
                             <a class="nav-link" href="{{ url('/book/chart') }}">
                                 Books Profit
                             </a>
@@ -56,8 +63,8 @@
                             </a>
                         </li>
                         <li class="nav-item active">
-                            <a class="nav-link" href="{{ url('/') }}">
-                                Favourite Books
+                            <a class="nav-link" href="{{ url('/myfavorite') }}">
+                                Favorites
                             </a>
                         </li>
                     @endif

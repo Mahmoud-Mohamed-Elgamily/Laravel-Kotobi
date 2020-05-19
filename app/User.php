@@ -43,11 +43,17 @@ class User extends Authenticatable
     
     public function favourites()
     {
-        return $this->belongsToMany('App\Favourite');
+        return $this->hasMany(Favourite::class);
     }
     
     public function my_rate()
     {
         return $this->belongsToMany(Book::class, 'rates');
     }
+    public function comments()
+    {
+        return $this->belongsToMany(Comment::class);
+    }
+
+
 }
