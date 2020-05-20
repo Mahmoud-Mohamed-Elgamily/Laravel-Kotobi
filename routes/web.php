@@ -19,7 +19,7 @@ Route::get('/', 'HomeController@index')->name('home');
 Route::get('/403', function () {
     return view('auth.403');
 });
-Route::get('/sort/{sort_value}', 'HomeController@sort')->name('rate');
+Route::get('/sort/{sort_value}/{current_category}', 'HomeController@sort')->name('rate');
 
 Route::get('book/chart', 'BooksController@chart');
 Route::post('book/{book}/rate', 'BooksController@rate');

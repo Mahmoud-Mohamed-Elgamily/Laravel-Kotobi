@@ -12,8 +12,13 @@
         </div>
         <div class="col-sm-6 text-center">
             <div class="btn-group" role="group" aria-label="Basic example">
-                <a href="/sort/rating" class="btn btn-light btn-outline-primary">Rate</a>
-                <a href="/sort/created_at" class="btn btn-light btn-outline-primary">Latest</a>
+                @if (empty($current_category))
+                    <a href="/sort/rating/0" class="btn btn-light btn-outline-primary">Rate</a>
+                    <a href="/sort/created_at/0" class="btn btn-light btn-outline-primary">Latest</a>
+                @else
+                    <a href="/sort/rating/{{$current_category->id}}" class="btn btn-light btn-outline-primary">Rate</a>
+                    <a href="/sort/created_at/{{$current_category->id}}" class="btn btn-light btn-outline-primary">Latest</a>
+                @endif
             </div>
         </div>
     </div>

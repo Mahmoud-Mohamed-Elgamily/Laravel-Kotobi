@@ -40,14 +40,19 @@ class HomeController extends Controller
         return $books;
     }
 
-    public function sort($sort_value)
+    public function sort($sort_value,$current_category)
     {
-        $books = Book::paginate(8);
+        if($current_category){
+            $books = Book::query()->where('category_id','=',$current_category)->paginate(8);
+        }
+        else{
+            $books = Book::paginate(8);
+        }
         $books = $this->addrate($books);
         $books->setCollection(
             $books->sortByDesc($sort_value)
         );
-        return $this->viewBooks($books);
+        return $this->viewBooks($books,$current_category);
     }
 
     public function index()
